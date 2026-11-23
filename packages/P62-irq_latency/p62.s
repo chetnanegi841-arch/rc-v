@@ -1,20 +1,29 @@
-# P62 program - see README.md for the task.
-# Rules: start at the label p62_main and finish with ret; every label you
-# create starts with p62_ ; save ra (and any s registers you use) on the stack.
-# You may call the library routines in sw/lib/rcv_lib.s (rcv_puts, rcv_getc, ...).
 
-        .text
+.text
 p62_main:
-        addi    sp, sp, -4
-        sw      ra, 0(sp)
+    addi sp, sp, -16
+    sw ra, 12(sp)
+    sw s0, 8(sp)
+    sw s1, 4(sp)
 
-        # TODO: your program
+    # Read L
+    call rcv_read_dec
+    mv s0, a0
 
-        lw      ra, 0(sp)
-        addi    sp, sp, 4
-        ret
+    # Read C
+    call rcv_read_dec
+    mv s1, a0
 
-        .rodata
+    # More program instructions will go here
+
+    lw s1, 4(sp)
+    lw s0, 8(sp)
+    lw ra, 12(sp)
+    addi sp, sp, 16
+    ret
+
+.rodata
 p62_msg:
-        .asciz  "TODO\n"
-        .align  2
+    .asciz "TODO\n"
+    .align 2
+  
