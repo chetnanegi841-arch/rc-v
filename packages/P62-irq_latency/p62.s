@@ -36,7 +36,8 @@ p62_main:
     sw t1, 0(t0)
 
     # Enable machine interrupts
-    csrsi mstatus, 8
+    li t0, 8
+csrrs zero, mstatus, t0
         # Initialize round number and comparison value
     li s2, 1
     mv s3, s1
@@ -127,7 +128,8 @@ p62_wait:
     blt s2, t0, p62_round
     
     # Disable machine interrupts
-    csrci mstatus, 8
+    li t0, 8
+csrrc zero, mstatus, t0
 
     # Stop the timer
     li t0, TIMER_CTRL
